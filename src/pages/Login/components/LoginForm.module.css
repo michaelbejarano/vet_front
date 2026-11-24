@@ -1,0 +1,9 @@
+.form {
+  display: grid;
+  gap: var(--space-5);
+  width: 100%;
+}
+
+.form > button {
+  margin-top: var(--space-2);
+}

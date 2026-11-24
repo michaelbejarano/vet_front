@@ -1,0 +1,25 @@
+import type { Role } from '@/config/roles';
+
+export interface LoginRequest {
+  email: string;
+  password: string;
+}
+
+export interface LoginResponse {
+  accessToken: string;
+  tokenType: string;
+  expiresIn: number;
+}
+
+export interface CurrentUser {
+  id: number;
+  email: string;
+  roleId: number;
+  roleName: Role;
+  isActive: boolean;
+}
+
+export interface Session {
+  token: string;
+  user: CurrentUser;
+}
