@@ -27,6 +27,10 @@ import DashboardPage
 import ForbiddenPage
   from '@/pages/Forbidden/ForbiddenPage';
 
+  //
+import UsersPage from '@/pages/Users/UsersPage';
+
+
 const moduleRoutes = navigation
   .flatMap((group) => group.items)
   .filter((item) => item.path !== PATHS.DASHBOARD);
@@ -87,10 +91,14 @@ export default function AppRoutes() {
               <Route
                 path={item.path}
                 element={
-                  <PlaceholderPage
-                    title={item.label}
-                  />
-                }
+                  item.path === PATHS.USERS ? (
+                    <UsersPage />
+                  ) : (
+                    <PlaceholderPage
+                      title={item.label}
+                    />
+                  )
+              }
               />
             </Route>
           ))}
