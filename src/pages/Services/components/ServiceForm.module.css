@@ -1,0 +1,133 @@
+.form {
+    display: grid;
+    gap: var(--space-4);
+}
+
+.fields {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+}
+
+.descriptionField {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.descriptionField label {
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text);
+}
+
+.textarea {
+    width: 100%;
+    min-height: 90px;
+    padding: var(--space-3);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: inherit;
+    font-size: var(--text-sm);
+    resize: vertical;
+    outline: none;
+    transition: border-color var(--transition-fast);
+}
+
+.textarea:focus {
+    border-color: var(--color-primary-700);
+    box-shadow: 0 0 0 3px rgba(13, 148, 136, 0.12);
+}
+
+.textarea::placeholder {
+    color: var(--color-text-muted);
+}
+
+.textarea:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+}
+
+.information {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-info-soft);
+    color: var(--color-info-strong);
+    font-size: var(--text-sm);
+}
+
+.information svg {
+    flex-shrink: 0;
+}
+
+.information strong {
+    font-weight: 600;
+}
+
+.information p {
+    margin-top: var(--space-1);
+    line-height: 1.5;
+}
+
+.summary {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--space-4);
+    padding: var(--space-4);
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-md);
+    background: var(--color-bg-alt);
+}
+
+.summary div {
+    display: grid;
+    gap: var(--space-2);
+}
+
+.summary span {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    color: var(--color-text-muted);
+    font-size: var(--text-xs);
+}
+
+.summary strong {
+    color: var(--color-primary-700);
+    font-size: var(--text-lg);
+    font-weight: 600;
+}
+
+.error {
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-danger-soft);
+    color: var(--color-danger);
+    font-size: var(--text-sm);
+}
+
+.actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-3);
+    padding-top: var(--space-4);
+    border-top: 1px solid var(--color-border);
+}
+
+@media (max-width: 600px) {
+    .fields {
+        grid-template-columns: 1fr;
+    }
+
+    .actions {
+        flex-direction: column-reverse;
+    }
+
+    .actions button {
+        width: 100%;
+    }
+}

@@ -26,17 +26,19 @@ import PlaceholderPage from '@/components/common/PlaceholderPage';
 import LoginPage from '@/pages/Login/LoginPage';
 import DashboardPage from '@/pages/Dashboard/DashboardPage';
 import ForbiddenPage from '@/pages/Forbidden/ForbiddenPage';
+
 import UsersPage from '@/pages/Users/UsersPage';
 import EmployeesPage from '@/pages/Employees/EmployeesPage';
 import SchedulesPage from '@/pages/Schedules/SchedulesPage';
+import ServicesPage from '@/pages/Services/ServicesPage';
 
 // ========================================
 // MÓDULOS DEL SISTEMA
 // ========================================
 
 const moduleRoutes = navigation
-    .flatMap((group) => group.items)
-    .filter((item) => item.path !== PATHS.DASHBOARD);
+    .flatMap(group => group.items)
+    .filter(item => item.path !== PATHS.DASHBOARD);
 
 export default function AppRoutes() {
     return (
@@ -85,7 +87,7 @@ export default function AppRoutes() {
 
                     {/* Módulos del sistema */}
 
-                    {moduleRoutes.map((item) => (
+                    {moduleRoutes.map(item => (
                         <Route
                             key={item.path}
                             element={
@@ -103,9 +105,11 @@ export default function AppRoutes() {
                                             ? <EmployeesPage />
                                             : item.path === PATHS.SCHEDULES
                                                 ? <SchedulesPage />
-                                                : <PlaceholderPage
-                                                    title={item.label}
-                                                />
+                                                : item.path === PATHS.SERVICES
+                                                    ? <ServicesPage />
+                                                    : <PlaceholderPage
+                                                        title={item.label}
+                                                    />
                                 }
                             />
                         </Route>
