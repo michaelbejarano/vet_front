@@ -41,6 +41,12 @@ import VisitsPage from '@/pages/Visits/VisitsPage';
 import MedicalHistoryPage from '@/pages/MedicalHistory/MedicalHistoryPage';
 
 // ========================================
+// CAJA
+// ========================================
+
+import CashPage from '@/pages/Cash/CashPage';
+
+// ========================================
 // MÓDULOS DEL SISTEMA
 // ========================================
 
@@ -109,19 +115,28 @@ export default function AppRoutes() {
                                 element={
                                     item.path === PATHS.USERS
                                         ? <UsersPage />
+
                                         : item.path === PATHS.EMPLOYEES
                                             ? <EmployeesPage />
+
                                             : item.path === PATHS.SCHEDULES
                                                 ? <SchedulesPage />
+
                                                 : item.path === PATHS.SERVICES
                                                     ? <ServicesPage />
+
                                                     : item.path === PATHS.VISITS
                                                         ? <VisitsPage />
+
                                                         : item.path === PATHS.MEDICAL_HISTORY
                                                             ? <MedicalHistoryPage />
-                                                            : <PlaceholderPage
-                                                                title={item.label}
-                                                            />
+
+                                                            : item.path === PATHS.CASH
+                                                                ? <CashPage />
+
+                                                                : <PlaceholderPage
+                                                                    title={item.label}
+                                                                />
                                 }
                             />
                         </Route>
