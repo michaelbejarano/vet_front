@@ -1,3 +1,4 @@
+
 import {
     Routes,
     Route,
@@ -31,6 +32,13 @@ import UsersPage from '@/pages/Users/UsersPage';
 import EmployeesPage from '@/pages/Employees/EmployeesPage';
 import SchedulesPage from '@/pages/Schedules/SchedulesPage';
 import ServicesPage from '@/pages/Services/ServicesPage';
+
+// ========================================
+// ATENCIONES E HISTORIAL CLÍNICO
+// ========================================
+
+import VisitsPage from '@/pages/Visits/VisitsPage';
+import MedicalHistoryPage from '@/pages/MedicalHistory/MedicalHistoryPage';
 
 // ========================================
 // MÓDULOS DEL SISTEMA
@@ -107,9 +115,13 @@ export default function AppRoutes() {
                                                 ? <SchedulesPage />
                                                 : item.path === PATHS.SERVICES
                                                     ? <ServicesPage />
-                                                    : <PlaceholderPage
-                                                        title={item.label}
-                                                    />
+                                                    : item.path === PATHS.VISITS
+                                                        ? <VisitsPage />
+                                                        : item.path === PATHS.MEDICAL_HISTORY
+                                                            ? <MedicalHistoryPage />
+                                                            : <PlaceholderPage
+                                                                title={item.label}
+                                                            />
                                 }
                             />
                         </Route>
