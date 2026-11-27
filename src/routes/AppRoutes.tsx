@@ -1,8 +1,8 @@
 
 import {
-    Routes,
-    Route,
-    Navigate,
+  Routes,
+  Route,
+  Navigate,
 } from 'react-router-dom';
 
 import { PATHS } from './paths';
@@ -14,133 +14,249 @@ import { PERMISSIONS } from '@/config/permissions';
 import { navigation } from '@/data/navigation';
 
 // ========================================
-// COMPONENTES
+// COMPONENTES PRINCIPALES
 // ========================================
 
-import DashboardLayout from '@/components/layout/DashboardLayout';
-import PlaceholderPage from '@/components/common/PlaceholderPage';
+import DashboardLayout
+  from '@/components/layout/DashboardLayout';
+
+import PlaceholderPage
+  from '@/components/common/PlaceholderPage';
 
 // ========================================
-// PÁGINAS
+// PÁGINAS PRINCIPALES
 // ========================================
 
-import LoginPage from '@/pages/Login/LoginPage';
-import DashboardPage from '@/pages/Dashboard/DashboardPage';
-import ForbiddenPage from '@/pages/Forbidden/ForbiddenPage';
+import LoginPage
+  from '@/pages/Login/LoginPage';
 
-import UsersPage from '@/pages/Users/UsersPage';
-import EmployeesPage from '@/pages/Employees/EmployeesPage';
-import SchedulesPage from '@/pages/Schedules/SchedulesPage';
-import ServicesPage from '@/pages/Services/ServicesPage';
-import AppointmentsPage from '@/pages/Appointments/AppointmentsPage';
+import DashboardPage
+  from '@/pages/Dashboard/DashboardPage';
+
+import ForbiddenPage
+  from '@/pages/Forbidden/ForbiddenPage';
 
 // ========================================
-// MÓDULOS DEL SISTEMA
+// USUARIOS Y EMPLEADOS
+// ========================================
+
+import UsersPage
+  from '@/pages/Users/UsersPage';
+
+import EmployeesPage
+  from '@/pages/Employees/EmployeesPage';
+
+// ========================================
+// HORARIOS Y SERVICIOS
+// ========================================
+
+import SchedulesPage
+  from '@/pages/Schedules/SchedulesPage';
+
+import ServicesPage
+  from '@/pages/Services/ServicesPage';
+
+// ========================================
+// CITAS
+// ========================================
+
+import AppointmentsPage
+  from '@/pages/Appointments/AppointmentsPage';
+
+// ========================================
+// PRODUCTOS E INVENTARIO
+// ========================================
+
+import ProductsPage
+  from '@/pages/Products/ProductsPage';
+
+import InventoryPage
+  from '@/pages/Inventory/InventoryPage';
+
+// ========================================
+// PROPIETARIOS Y MASCOTAS
+// ========================================
+
+import OwnersPage
+  from '@/pages/Owners/OwnersPage';
+
+import PetsPage
+  from '@/pages/Pets/PetsPage';
+
+// ========================================
+// REPORTES Y ESTADÍSTICAS
+// ========================================
+
+import ReportsPage
+  from '@/pages/Reports/ReportsPage';
+
+// ========================================
+// RUTAS DINÁMICAS DEL SISTEMA
 // ========================================
 
 const moduleRoutes = navigation
-    .flatMap(group => group.items)
-    .filter(item => item.path !== PATHS.DASHBOARD);
+  .flatMap((group) => group.items)
+  .filter((item) => item.path !== PATHS.DASHBOARD);
+
+// ========================================
+// CONFIGURACIÓN PRINCIPAL DE RUTAS
+// ========================================
 
 export default function AppRoutes() {
-    return (
-        <Routes>
+  return (
+    <Routes>
 
-            {/* Ruta principal */}
+      {/* ==================================
+          RUTA PRINCIPAL
+      ================================== */}
+
+      <Route
+        path={PATHS.ROOT}
+        element={
+          <Navigate
+            to={PATHS.DASHBOARD}
+            replace
+          />
+        }
+      />
+
+      {/* ==================================
+          RUTAS PÚBLICAS
+      ================================== */}
+
+      <Route element={<PublicRoute />}>
+
+        <Route
+          path={PATHS.LOGIN}
+          element={<LoginPage />}
+        />
+
+      </Route>
+
+      {/* ==================================
+          RUTAS AUTENTICADAS
+      ================================== */}
+
+      <Route element={<ProtectedRoute />}>
+
+        <Route element={<DashboardLayout />}>
+
+          {/* ==============================
+              DASHBOARD PRINCIPAL
+          ============================== */}
+
+          <Route
+            element={
+              <ProtectedRoute
+                permission={PERMISSIONS.DASHBOARD}
+              />
+            }
+          >
 
             <Route
-                path={PATHS.ROOT}
-                element={
-                    <Navigate
-                        to={PATHS.DASHBOARD}
-                        replace
-                    />
-                }
+              path={PATHS.DASHBOARD}
+              element={<DashboardPage />}
             />
 
-            {/* Rutas públicas */}
+          </Route>
 
-            <Route element={<PublicRoute />}>
-                <Route
-                    path={PATHS.LOGIN}
-                    element={<LoginPage />}
+          {/* ==============================
+              MÓDULOS DEL SISTEMA
+          ============================== */}
+
+          {moduleRoutes.map((item) => (
+
+            <Route
+              key={item.path}
+              element={
+                <ProtectedRoute
+                  permission={item.permission}
                 />
-            </Route>
+              }
+            >
 
-            {/* Rutas autenticadas */}
-
-            <Route element={<ProtectedRoute />}>
-                <Route element={<DashboardLayout />}>
-
-                    {/* Dashboard */}
-
-                    <Route
-                        element={
-                            <ProtectedRoute
-                                permission={PERMISSIONS.DASHBOARD}
-                            />
-                        }
-                    >
-                        <Route
-                            path={PATHS.DASHBOARD}
-                            element={<DashboardPage />}
-                        />
-                    </Route>
-
-                    {/* Módulos del sistema */}
-
-                    {moduleRoutes.map(item => (
-                        <Route
-                            key={item.path}
-                            element={
-                                <ProtectedRoute
-                                    permission={item.permission}
-                                />
-                            }
-                        >
-                            <Route
-                                path={item.path}
-                                element={
-                                    item.path === PATHS.USERS
-                                        ? <UsersPage />
-                                        : item.path === PATHS.EMPLOYEES
-                                            ? <EmployeesPage />
-                                            : item.path === PATHS.SCHEDULES
-                                                ? <SchedulesPage />
-                                                : item.path === PATHS.SERVICES
-                                                    ? <ServicesPage />
-                                                    : item.path === PATHS.APPOINTMENTS
-                                                        ? <AppointmentsPage />
-                                                        : <PlaceholderPage
-                                                            title={item.label}
-                                                        />
-                                }
-                            />
-                        </Route>
-                    ))}
-
-                    {/* Acceso denegado */}
-
-                    <Route
-                        path={PATHS.FORBIDDEN}
-                        element={<ForbiddenPage />}
-                    />
-
-                </Route>
-            </Route>
-
-            {/* Ruta desconocida */}
-
-            <Route
-                path="*"
+              <Route
+                path={item.path}
                 element={
-                    <Navigate
-                        to={PATHS.ROOT}
-                        replace
-                    />
-                }
-            />
 
-        </Routes>
-    );
+                  // USUARIOS
+                  item.path === PATHS.USERS
+                    ? <UsersPage />
+
+                    // EMPLEADOS
+                    : item.path === PATHS.EMPLOYEES
+                      ? <EmployeesPage />
+
+                      // HORARIOS
+                      : item.path === PATHS.SCHEDULES
+                        ? <SchedulesPage />
+
+                        // SERVICIOS
+                        : item.path === PATHS.SERVICES
+                          ? <ServicesPage />
+
+                          // CITAS
+                          : item.path === PATHS.APPOINTMENTS
+                            ? <AppointmentsPage />
+
+                            // PRODUCTOS
+                            : item.path === PATHS.PRODUCTS
+                              ? <ProductsPage />
+
+                              // CONTROL DE STOCK
+                              : item.path === PATHS.INVENTORY
+                                ? <InventoryPage />
+
+                                // PROPIETARIOS
+                                : item.path === PATHS.OWNERS
+                                  ? <OwnersPage />
+
+                                  // MASCOTAS
+                                  : item.path === PATHS.PETS
+                                    ? <PetsPage />
+
+                                    // REPORTES
+                                    : item.path === PATHS.REPORTS
+                                      ? <ReportsPage />
+
+                                      // MÓDULOS PENDIENTES
+                                      : <PlaceholderPage
+                                          title={item.label}
+                                        />
+                }
+              />
+
+            </Route>
+
+          ))}
+
+          {/* ==============================
+              ACCESO DENEGADO
+          ============================== */}
+
+          <Route
+            path={PATHS.FORBIDDEN}
+            element={<ForbiddenPage />}
+          />
+
+        </Route>
+
+      </Route>
+
+      {/* ==================================
+          RUTAS NO ENCONTRADAS
+      ================================== */}
+
+      <Route
+        path="*"
+        element={
+          <Navigate
+            to={PATHS.ROOT}
+            replace
+          />
+        }
+      />
+
+    </Routes>
+  );
 }

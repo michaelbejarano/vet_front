@@ -1,0 +1,213 @@
+.page {
+    display: grid;
+    gap: 22px;
+}
+
+.page button {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    padding: 9px 13px;
+    border: 1px solid #d9e2e8;
+    background: #fff;
+    border-radius: 9px;
+    cursor: pointer;
+    color: #263746;
+    font-weight: 600;
+}
+
+.page button:hover {
+    background: #f0f6f8;
+}
+
+.page .primary,
+.form .primary {
+    background: #126f64;
+    color: white;
+    border-color: #126f64;
+}
+
+.page .primary:hover {
+    background: #09584e;
+}
+
+.cards {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+}
+
+.cards article {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 7px;
+    padding: 20px;
+    border: 1px solid #e0e8ef;
+    border-radius: 14px;
+    background: #fff;
+}
+
+.cards article strong {
+    font-size: 27px;
+    color: #17675f;
+}
+
+.cards article span {
+    font-size: 13px;
+    color: #697988;
+}
+
+.toolbar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 12px;
+    border: 1px solid #e2e8ee;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.toolbar input,
+.toolbar select {
+    flex: 1;
+    min-width: 140px;
+    padding: 10px;
+    background: #fff;
+    color: #243744;
+    border: 1px solid #d5dfe7;
+    border-radius: 8px;
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.actions a {
+    padding: 7px 8px;
+    color: #137367;
+    font-weight: 600;
+    text-decoration: none;
+}
+
+.sectionTitle {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 12px;
+}
+
+.sectionTitle h2 {
+    font-size: 19px;
+    margin: 0;
+}
+
+.form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.form label {
+    display: flex;
+    flex-direction: column;
+    gap: 6px;
+    font-weight: 600;
+    font-size: 14px;
+}
+
+.form input,
+.form select {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #cad7df;
+    border-radius: 9px;
+    background: #fff;
+    color: #1f3542;
+}
+
+.form .check {
+    flex-direction: row;
+    align-items: center;
+}
+
+.form .check input {
+    width: auto;
+}
+
+.form .actions {
+    justify-content: flex-end;
+    padding-top: 10px;
+}
+
+.ok {
+    color: #14785b;
+    font-weight: 700;
+}
+
+.muted {
+    color: #738090;
+}
+
+.danger {
+    color: #b42318;
+    font-weight: 700;
+}
+
+.success {
+    padding: 12px 16px;
+    color: #136b4f;
+    background: #e9f8f0;
+    border-radius: 10px;
+}
+
+.error {
+    padding: 12px 16px;
+    color: #a52220;
+    background: #fdeeed;
+    border-radius: 10px;
+}
+
+.tableWrap {
+    overflow-x: auto;
+    border: 1px solid #e2e8ee;
+    border-radius: 12px;
+    background: #fff;
+}
+
+.tableWrap table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tableWrap th,
+.tableWrap td {
+    padding: 13px;
+    border-bottom: 1px solid #e5ebf1;
+}
+
+.tableWrap th {
+    color: #5e7081;
+    background: #f7fafb;
+    font-size: 13px;
+}
+
+@media (max-width: 760px) {
+    .cards {
+        grid-template-columns: 1fr;
+    }
+
+    .sectionTitle {
+        align-items: flex-start;
+    }
+
+    .toolbar {
+        flex-wrap: wrap;
+    }
+}
