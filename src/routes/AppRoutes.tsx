@@ -24,7 +24,7 @@ import PlaceholderPage
   from '@/components/common/PlaceholderPage';
 
 // ========================================
-// PAGINAS DEL SISTEMA
+// PÁGINAS PRINCIPALES
 // ========================================
 
 import LoginPage
@@ -77,7 +77,14 @@ import PetsPage
   from '@/pages/Pets/PetsPage';
 
 // ========================================
-// RUTAS DINAMICAS
+// REPORTES Y ESTADÍSTICAS
+// ========================================
+
+import ReportsPage
+  from '@/pages/Reports/ReportsPage';
+
+// ========================================
+// RUTAS DINÁMICAS DEL SISTEMA
 // ========================================
 
 const moduleRoutes = navigation
@@ -85,7 +92,7 @@ const moduleRoutes = navigation
   .filter((item) => item.path !== PATHS.DASHBOARD);
 
 // ========================================
-// COMPONENTE PRINCIPAL
+// CONFIGURACIÓN PRINCIPAL DE RUTAS
 // ========================================
 
 export default function AppRoutes() {
@@ -107,7 +114,7 @@ export default function AppRoutes() {
       />
 
       {/* ==================================
-          RUTAS PUBLICAS
+          RUTAS PÚBLICAS
       ================================== */}
 
       <Route element={<PublicRoute />}>
@@ -128,7 +135,7 @@ export default function AppRoutes() {
         <Route element={<DashboardLayout />}>
 
           {/* ==============================
-              DASHBOARD
+              DASHBOARD PRINCIPAL
           ============================== */}
 
           <Route
@@ -147,7 +154,7 @@ export default function AppRoutes() {
           </Route>
 
           {/* ==============================
-              MODULOS DEL SISTEMA
+              MÓDULOS DEL SISTEMA
           ============================== */}
 
           {moduleRoutes.map((item) => (
@@ -197,10 +204,14 @@ export default function AppRoutes() {
                                 : item.path === PATHS.PETS
                                   ? <PetsPage />
 
-                                  // MODULOS PENDIENTES
-                                  : <PlaceholderPage
-                                    title={item.label}
-                                  />
+                                  // REPORTES
+                                  : item.path === PATHS.REPORTS
+                                    ? <ReportsPage />
+
+                                    // MÓDULOS PENDIENTES
+                                    : <PlaceholderPage
+                                      title={item.label}
+                                    />
                 }
               />
 
@@ -222,7 +233,7 @@ export default function AppRoutes() {
       </Route>
 
       {/* ==================================
-          RUTA DESCONOCIDA
+          RUTAS NO ENCONTRADAS
       ================================== */}
 
       <Route
