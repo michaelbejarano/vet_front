@@ -14,11 +14,10 @@ import PageHeader from '../../components/common/PageHeader';
 import Button from '../../components/common/Button';
 import StatCard from '../../components/common/StatCard';
 import SelectField from '../../components/common/SelectField';
-import Modal from '../../components/common/Modal';
-import StatusBadge from '../../components/common/StatusBadge';
 
 import AppointmentCalendar from './components/AppointmentCalendar';
 import AppointmentFormModal from './components/AppointmentFormModal';
+import AppointmentDetailModal from './components/AppointmentDetailModal';
 
 import { appointmentService } from '../../services/appointmentService';
 import { employeeService } from '../../services/employeeService';
@@ -32,7 +31,6 @@ import { getApiError } from '../../utils/apiError';
 
 import type {
   Appointment,
-  AppointmentDetail,
 } from '../../types/appointment.types';
 
 import type {
@@ -40,17 +38,6 @@ import type {
 } from '../../types/employee.types';
 
 import styles from './AppointmentsPage.module.css';
-
-const currencyFormatter = new Intl.NumberFormat('es-PE', {
-  style: 'currency',
-  currency: 'PEN',
-});
-
-const dateFormatter = new Intl.DateTimeFormat('es-PE', {
-  dateStyle: 'medium',
-  timeStyle: 'short',
-  timeZone: 'America/Lima',
-});
 
 export default function AppointmentsPage() {
   const [appointments, setAppointments] =
@@ -68,18 +55,17 @@ export default function AppointmentsPage() {
   const [statusFilter, setStatusFilter] =
     useState('');
 
-  const [detailOpen, setDetailOpen] = useState(false);
-  const [detailLoading, setDetailLoading] = useState(false);
-  const [detailError, setDetailError] = useState('');
+  const [detailOpen, setDetailOpen] =
+    useState(false);
 
-  const [selectedAppointment, setSelectedAppointment] =
-    useState<AppointmentDetail | null>(null);
+  const [selectedAppointmentId, setSelectedAppointmentId] =
+    useState<number | null>(null);
 
   const [formOpen, setFormOpen] = useState(false);
   const [selectedDate, setSelectedDate] = useState('');
 
   // ========================================
-  // CARGAR CITAS Y TRABAJADORES
+  // CARGAR DATOS
   // ========================================
 
   async function loadData() {
@@ -112,7 +98,28 @@ export default function AppointmentsPage() {
   }, []);
 
   // ========================================
-  // FILTRAR CITAS
+  // ACTUALIZAR CITAS
+  // ========================================
+
+  async function refreshAppointments() {
+    try {
+      const result =
+        await appointmentService.getAll();
+
+      setAppointments(result);
+      setError('');
+    } catch (err) {
+      setError(
+        getApiError(
+          err,
+          'No se pudo actualizar la agenda.',
+        ),
+      );
+    }
+  }
+
+  // ========================================
+  // FILTROS
   // ========================================
 
   const filteredAppointments = useMemo(() => {
@@ -152,33 +159,21 @@ export default function AppointmentsPage() {
   }, [filteredAppointments]);
 
   // ========================================
-  // OBTENER DETALLE DE CITA
+  // ABRIR DETALLE
   // ========================================
 
-  async function handleAppointmentClick(id: number) {
-    setSelectedAppointment(null);
-    setDetailError('');
+  function handleAppointmentClick(id: number) {
+    setSelectedAppointmentId(id);
     setDetailOpen(true);
-    setDetailLoading(true);
+  }
 
-    try {
-      const detail = await appointmentService.getById(id);
-
-      setSelectedAppointment(detail);
-    } catch (err) {
-      setDetailError(
-        getApiError(
-          err,
-          'No se pudo obtener el detalle de la cita.',
-        ),
-      );
-    } finally {
-      setDetailLoading(false);
-    }
+  function handleCloseDetail() {
+    setDetailOpen(false);
+    setSelectedAppointmentId(null);
   }
 
   // ========================================
-  // ABRIR FORMULARIO DESDE EL CALENDARIO
+  // NUEVA CITA
   // ========================================
 
   function handleDateClick(date: string) {
@@ -186,35 +181,24 @@ export default function AppointmentsPage() {
     setFormOpen(true);
   }
 
-  // ========================================
-  // ABRIR FORMULARIO DE NUEVA CITA
-  // ========================================
-
   function handleNewAppointment() {
     setSelectedDate('');
     setFormOpen(true);
   }
 
   // ========================================
-  // CITA REGISTRADA CORRECTAMENTE
+  // CITA REGISTRADA
   // ========================================
 
   async function handleAppointmentCreated(id: number) {
-    // Cerrar formulario
     setFormOpen(false);
-
-    // Limpiar fecha seleccionada
     setSelectedDate('');
-
-    // Limpiar filtros para mostrar la nueva cita
     setEmployeeFilter('');
     setStatusFilter('');
 
-    // Actualizar calendario
-    await loadData();
+    await refreshAppointments();
 
-    // Mostrar detalle de la cita registrada
-    await handleAppointmentClick(id);
+    handleAppointmentClick(id);
   }
 
   // ========================================
@@ -349,7 +333,7 @@ export default function AppointmentsPage() {
           </Button>
         </div>
 
-        {/* LEYENDA DE ESTADOS */}
+        {/* LEYENDA */}
 
         <div className={styles.legend}>
           {Object.entries(APPOINTMENT_STATUSES).map(
@@ -388,17 +372,13 @@ export default function AppointmentsPage() {
         ) : (
           <AppointmentCalendar
             appointments={filteredAppointments}
-            onAppointmentClick={(id) =>
-              void handleAppointmentClick(id)
-            }
+            onAppointmentClick={handleAppointmentClick}
             onDateClick={handleDateClick}
           />
         )}
       </section>
 
-      {/* ========================================
-          FORMULARIO REAL DE NUEVA CITA
-          ======================================== */}
+      {/* FORMULARIO DE RESERVA */}
 
       <AppointmentFormModal
         open={formOpen}
@@ -409,171 +389,14 @@ export default function AppointmentsPage() {
         }
       />
 
-      {/* ========================================
-          DETALLE DE CITA
-          ======================================== */}
+      {/* DETALLE Y ACCIONES DE CITA */}
 
-      <Modal
+      <AppointmentDetailModal
         open={detailOpen}
-        title="Detalle de cita"
-        onClose={() => setDetailOpen(false)}
-      >
-        {detailLoading && (
-          <p>Cargando información...</p>
-        )}
-
-        {detailError && (
-          <div className={styles.error} role="alert">
-            {detailError}
-          </div>
-        )}
-
-        {!detailLoading && selectedAppointment && (
-          <div className={styles.detail}>
-
-            {/* ESTADO DE CITA */}
-
-            <div className={styles.detailHeader}>
-              <h3>Cita #{selectedAppointment.id}</h3>
-
-              <StatusBadge
-                label={
-                  APPOINTMENT_STATUSES[
-                    selectedAppointment.status
-                  ].label
-                }
-                variant={
-                  APPOINTMENT_STATUSES[
-                    selectedAppointment.status
-                  ].variant
-                }
-              />
-            </div>
-
-            {/* INFORMACIÓN GENERAL */}
-
-            <div className={styles.detailGrid}>
-              <div>
-                <span>Mascota</span>
-
-                <strong>
-                  {selectedAppointment.petName}
-                </strong>
-              </div>
-
-              <div>
-                <span>Trabajador</span>
-
-                <strong>
-                  {selectedAppointment.employeeName}
-                </strong>
-              </div>
-
-              <div>
-                <span>Inicio</span>
-
-                <strong>
-                  {dateFormatter.format(
-                    new Date(selectedAppointment.startAt),
-                  )}
-                </strong>
-              </div>
-
-              <div>
-                <span>Fin</span>
-
-                <strong>
-                  {dateFormatter.format(
-                    new Date(selectedAppointment.endAt),
-                  )}
-                </strong>
-              </div>
-            </div>
-
-            {/* SERVICIOS RESERVADOS */}
-
-            <h4>Servicios reservados</h4>
-
-            <div className={styles.services}>
-              {selectedAppointment.services.map(
-                (service) => (
-                  <div
-                    key={service.serviceId}
-                    className={styles.serviceItem}
-                  >
-                    <div>
-                      <strong>{service.serviceName}</strong>
-
-                      <small>
-                        {service.durationMinutes} minutos
-                      </small>
-                    </div>
-
-                    <strong>
-                      {currencyFormatter.format(
-                        service.agreedPrice,
-                      )}
-                    </strong>
-                  </div>
-                ),
-              )}
-            </div>
-
-            {/* RESUMEN ECONÓMICO */}
-
-            <div className={styles.paymentSummary}>
-              <div>
-                <span>Precio reservado</span>
-
-                <strong>
-                  {currencyFormatter.format(
-                    selectedAppointment.reservedPrice,
-                  )}
-                </strong>
-              </div>
-
-              <div>
-                <span>
-                  Adelanto requerido (
-                  {selectedAppointment.depositPercent}%)
-                </span>
-
-                <strong>
-                  {currencyFormatter.format(
-                    selectedAppointment.requiredDeposit,
-                  )}
-                </strong>
-              </div>
-
-              {selectedAppointment.status ===
-                'PENDING_PAYMENT' &&
-                selectedAppointment.paymentExpiresAt && (
-                  <div>
-                    <span>Vencimiento del pago</span>
-
-                    <strong>
-                      {dateFormatter.format(
-                        new Date(
-                          selectedAppointment.paymentExpiresAt,
-                        ),
-                      )}
-                    </strong>
-                  </div>
-                )}
-            </div>
-
-            {/* CERRAR DETALLE */}
-
-            <Button
-              variant="outline"
-              fullWidth
-              onClick={() => setDetailOpen(false)}
-            >
-              Cerrar
-            </Button>
-          </div>
-        )}
-      </Modal>
+        appointmentId={selectedAppointmentId}
+        onClose={handleCloseDetail}
+        onUpdated={() => void refreshAppointments()}
+      />
     </div>
   );
 }
