@@ -1,3 +1,4 @@
+
 import {
     Routes,
     Route,
@@ -31,6 +32,7 @@ import UsersPage from '@/pages/Users/UsersPage';
 import EmployeesPage from '@/pages/Employees/EmployeesPage';
 import SchedulesPage from '@/pages/Schedules/SchedulesPage';
 import ServicesPage from '@/pages/Services/ServicesPage';
+import AppointmentsPage from '@/pages/Appointments/AppointmentsPage';
 
 // ========================================
 // MÓDULOS DEL SISTEMA
@@ -107,9 +109,11 @@ export default function AppRoutes() {
                                                 ? <SchedulesPage />
                                                 : item.path === PATHS.SERVICES
                                                     ? <ServicesPage />
-                                                    : <PlaceholderPage
-                                                        title={item.label}
-                                                    />
+                                                    : item.path === PATHS.APPOINTMENTS
+                                                        ? <AppointmentsPage />
+                                                        : <PlaceholderPage
+                                                            title={item.label}
+                                                        />
                                 }
                             />
                         </Route>

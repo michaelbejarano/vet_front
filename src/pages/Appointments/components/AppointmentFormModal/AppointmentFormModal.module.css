@@ -1,0 +1,292 @@
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.loading {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  color: #64748b;
+  font-size: 0.875rem;
+}
+
+.section {
+  display: flex;
+  flex-direction: column;
+  gap: 0.75rem;
+}
+
+.section h4,
+.summary h4 {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0;
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: #1e293b;
+}
+
+.help {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.5;
+  color: #64748b;
+}
+
+/* Servicios */
+
+.serviceList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+  max-height: 220px;
+  overflow-y: auto;
+}
+
+.serviceItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 150ms ease,
+    border-color 150ms ease;
+}
+
+.serviceItem:hover {
+  background-color: #f8fafc;
+}
+
+.serviceItem input {
+  width: 17px;
+  height: 17px;
+  accent-color: #0f766e;
+  flex-shrink: 0;
+}
+
+.serviceSelected {
+  border-color: #0f766e;
+  background-color: #f0fdfa;
+}
+
+.serviceSelected:hover {
+  background-color: #f0fdfa;
+}
+
+.serviceInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.serviceInfo strong {
+  font-size: 0.875rem;
+  color: #1e293b;
+  overflow-wrap: anywhere;
+}
+
+.serviceInfo small {
+  font-size: 0.75rem;
+  color: #64748b;
+}
+
+.servicePrice {
+  font-size: 0.875rem;
+  color: #0f766e;
+  white-space: nowrap;
+}
+
+/* Horarios disponibles */
+
+.slots {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 0.5rem;
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 2px;
+}
+
+.slot {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+  padding: 0.75rem 0.25rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 8px;
+  background-color: #ffffff;
+  color: #334155;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 150ms ease;
+}
+
+.slot:hover:not(:disabled) {
+  border-color: #0f766e;
+  background-color: #f0fdfa;
+}
+
+.slot strong {
+  font-size: 0.875rem;
+}
+
+.slot small {
+  font-size: 0.6875rem;
+  opacity: 0.8;
+}
+
+.slotSelected,
+.slotSelected:hover:not(:disabled) {
+  background-color: #0f766e;
+  border-color: #0f766e;
+  color: #ffffff;
+}
+
+.slot:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.slot:focus-visible {
+  outline: 2px solid #0f766e;
+  outline-offset: 2px;
+}
+
+.emptySlots {
+  padding: 1rem;
+  background-color: #f8fafc;
+  border: 1px dashed #cbd5e1;
+  border-radius: 10px;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  color: #64748b;
+  text-align: center;
+}
+
+.selectedTime {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.875rem;
+  border-radius: 8px;
+  background-color: #dcfce7;
+  color: #166534;
+  font-size: 0.8125rem;
+}
+
+.selectedTime svg {
+  flex-shrink: 0;
+}
+
+/* Resumen económico */
+
+.summary {
+  display: flex;
+  flex-direction: column;
+  gap: 0.875rem;
+  padding: 1rem;
+  background-color: #f8fafc;
+  border: 1px solid #e2e8f0;
+  border-radius: 12px;
+}
+
+.summaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  font-size: 0.8125rem;
+  color: #64748b;
+}
+
+.summaryRow strong {
+  color: #1e293b;
+  text-align: right;
+}
+
+.deposit {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.875rem;
+  border-radius: 8px;
+  background-color: #ccfbf1;
+  color: #115e59;
+  font-size: 0.875rem;
+  font-weight: 600;
+}
+
+.deposit strong {
+  font-size: 1.125rem;
+  white-space: nowrap;
+}
+
+/* Información y errores */
+
+.notice {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.625rem;
+  padding: 0.875rem;
+  border: 1px solid #fde68a;
+  border-radius: 8px;
+  background-color: #fffbeb;
+  color: #92400e;
+}
+
+.notice svg {
+  flex-shrink: 0;
+}
+
+.notice p {
+  margin: 0;
+  font-size: 0.75rem;
+  line-height: 1.6;
+}
+
+.error {
+  padding: 0.875rem;
+  border: 1px solid #fecaca;
+  border-radius: 8px;
+  background-color: #fee2e2;
+  color: #991b1b;
+  font-size: 0.875rem;
+  line-height: 1.5;
+}
+
+/* Acciones */
+
+.actions {
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  gap: 0.75rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e2e8f0;
+}
+
+@media (max-width: 480px) {
+  .slots {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
+  .actions {
+    flex-direction: column-reverse;
+  }
+
+  .actions > button {
+    width: 100%;
+  }
+}
