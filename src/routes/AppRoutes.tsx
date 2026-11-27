@@ -1,3 +1,4 @@
+
 import {
   Routes,
   Route,
@@ -27,10 +28,19 @@ import DashboardPage
 import ForbiddenPage
   from '@/pages/Forbidden/ForbiddenPage';
 
-import EmployeesPage from '@/pages/Employees/EmployeesPage';
-  //
-import UsersPage from '@/pages/Users/UsersPage';
+import EmployeesPage
+  from '@/pages/Employees/EmployeesPage';
 
+import UsersPage
+  from '@/pages/Users/UsersPage';
+
+// Modulo de Productos
+import ProductsPage
+  from '@/pages/Products/ProductsPage';
+
+// Modulo de Control de Stock
+import InventoryPage
+  from '@/pages/Inventory/InventoryPage';
 
 const moduleRoutes = navigation
   .flatMap((group) => group.items)
@@ -39,6 +49,9 @@ const moduleRoutes = navigation
 export default function AppRoutes() {
   return (
     <Routes>
+
+      {/* Ruta principal */}
+
       <Route
         path={PATHS.ROOT}
         element={
@@ -49,7 +62,7 @@ export default function AppRoutes() {
         }
       />
 
-      {/* Rutas públicas */}
+      {/* Rutas publicas */}
 
       <Route element={<PublicRoute />}>
         <Route
@@ -78,7 +91,7 @@ export default function AppRoutes() {
             />
           </Route>
 
-          {/* Módulos del sistema */}
+          {/* Modulos del sistema */}
 
           {moduleRoutes.map((item) => (
             <Route
@@ -93,9 +106,17 @@ export default function AppRoutes() {
                 path={item.path}
                 element={
                   item.path === PATHS.USERS
-                      ? <UsersPage />
-                      : item.path === PATHS.EMPLOYEES
-                          ? <EmployeesPage />
+                    ? <UsersPage />
+
+                    : item.path === PATHS.EMPLOYEES
+                      ? <EmployeesPage />
+
+                      : item.path === PATHS.PRODUCTS
+                        ? <ProductsPage />
+
+                        : item.path === PATHS.INVENTORY
+                          ? <InventoryPage />
+
                           : <PlaceholderPage title={item.label} />
                 }
               />
@@ -108,6 +129,7 @@ export default function AppRoutes() {
             path={PATHS.FORBIDDEN}
             element={<ForbiddenPage />}
           />
+
         </Route>
       </Route>
 
@@ -122,6 +144,7 @@ export default function AppRoutes() {
           />
         }
       />
+
     </Routes>
   );
 }
