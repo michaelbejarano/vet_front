@@ -1,3 +1,4 @@
+
 import { ROLES } from './roles';
 import type { Role } from './roles';
 
@@ -37,6 +38,8 @@ const ROLE_PERMISSIONS: Record<
 
   [ROLES.ADMIN]: [
     PERMISSIONS.DASHBOARD,
+    PERMISSIONS.VISITS,
+    PERMISSIONS.MEDICAL_HISTORY,
   ],
 
   [ROLES.VETERINARIAN]: [

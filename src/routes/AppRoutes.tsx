@@ -84,6 +84,23 @@ import PetsPage
   from '@/pages/Pets/PetsPage';
 
 // ========================================
+// ATENCIONES E HISTORIAL CLÍNICO
+// ========================================
+
+import VisitsPage
+  from '@/pages/Visits/VisitsPage';
+
+import MedicalHistoryPage
+  from '@/pages/MedicalHistory/MedicalHistoryPage';
+
+// ========================================
+// CAJA
+// ========================================
+
+import CashPage
+  from '@/pages/Cash/CashPage';
+
+// ========================================
 // REPORTES Y ESTADÍSTICAS
 // ========================================
 
@@ -106,9 +123,7 @@ export default function AppRoutes() {
   return (
     <Routes>
 
-      {/* ==================================
-          RUTA PRINCIPAL
-      ================================== */}
+      {/* RUTA PRINCIPAL */}
 
       <Route
         path={PATHS.ROOT}
@@ -120,9 +135,7 @@ export default function AppRoutes() {
         }
       />
 
-      {/* ==================================
-          RUTAS PÚBLICAS
-      ================================== */}
+      {/* RUTAS PÚBLICAS */}
 
       <Route element={<PublicRoute />}>
 
@@ -133,17 +146,13 @@ export default function AppRoutes() {
 
       </Route>
 
-      {/* ==================================
-          RUTAS AUTENTICADAS
-      ================================== */}
+      {/* RUTAS AUTENTICADAS */}
 
       <Route element={<ProtectedRoute />}>
 
         <Route element={<DashboardLayout />}>
 
-          {/* ==============================
-              DASHBOARD PRINCIPAL
-          ============================== */}
+          {/* DASHBOARD PRINCIPAL */}
 
           <Route
             element={
@@ -160,9 +169,7 @@ export default function AppRoutes() {
 
           </Route>
 
-          {/* ==============================
-              MÓDULOS DEL SISTEMA
-          ============================== */}
+          {/* MÓDULOS DEL SISTEMA */}
 
           {moduleRoutes.map((item) => (
 
@@ -203,7 +210,7 @@ export default function AppRoutes() {
                             : item.path === PATHS.PRODUCTS
                               ? <ProductsPage />
 
-                              // CONTROL DE STOCK
+                              // INVENTARIO
                               : item.path === PATHS.INVENTORY
                                 ? <InventoryPage />
 
@@ -215,14 +222,26 @@ export default function AppRoutes() {
                                   : item.path === PATHS.PETS
                                     ? <PetsPage />
 
-                                    // REPORTES
-                                    : item.path === PATHS.REPORTS
-                                      ? <ReportsPage />
+                                    // ATENCIONES
+                                    : item.path === PATHS.VISITS
+                                      ? <VisitsPage />
 
-                                      // MÓDULOS PENDIENTES
-                                      : <PlaceholderPage
-                                          title={item.label}
-                                        />
+                                      // HISTORIAL CLÍNICO
+                                      : item.path === PATHS.MEDICAL_HISTORY
+                                        ? <MedicalHistoryPage />
+
+                                        // CAJA
+                                        : item.path === PATHS.CASH
+                                          ? <CashPage />
+
+                                          // REPORTES
+                                          : item.path === PATHS.REPORTS
+                                            ? <ReportsPage />
+
+                                            // MÓDULOS PENDIENTES
+                                            : <PlaceholderPage
+                                                title={item.label}
+                                              />
                 }
               />
 
@@ -230,9 +249,7 @@ export default function AppRoutes() {
 
           ))}
 
-          {/* ==============================
-              ACCESO DENEGADO
-          ============================== */}
+          {/* ACCESO DENEGADO */}
 
           <Route
             path={PATHS.FORBIDDEN}
@@ -243,9 +260,7 @@ export default function AppRoutes() {
 
       </Route>
 
-      {/* ==================================
-          RUTAS NO ENCONTRADAS
-      ================================== */}
+      {/* RUTAS NO ENCONTRADAS */}
 
       <Route
         path="*"
