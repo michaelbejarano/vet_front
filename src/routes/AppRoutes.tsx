@@ -13,11 +13,19 @@ import PublicRoute from './PublicRoute';
 import { PERMISSIONS } from '@/config/permissions';
 import { navigation } from '@/data/navigation';
 
+// ========================================
+// COMPONENTES PRINCIPALES
+// ========================================
+
 import DashboardLayout
   from '@/components/layout/DashboardLayout';
 
 import PlaceholderPage
   from '@/components/common/PlaceholderPage';
+
+// ========================================
+// PAGINAS DEL SISTEMA
+// ========================================
 
 import LoginPage
   from '@/pages/Login/LoginPage';
@@ -28,29 +36,65 @@ import DashboardPage
 import ForbiddenPage
   from '@/pages/Forbidden/ForbiddenPage';
 
-import EmployeesPage
-  from '@/pages/Employees/EmployeesPage';
+// ========================================
+// USUARIOS Y EMPLEADOS
+// ========================================
 
 import UsersPage
   from '@/pages/Users/UsersPage';
 
-// Modulo de Productos
+import EmployeesPage
+  from '@/pages/Employees/EmployeesPage';
+
+// ========================================
+// HORARIOS Y SERVICIOS
+// ========================================
+
+import SchedulesPage
+  from '@/pages/Schedules/SchedulesPage';
+
+import ServicesPage
+  from '@/pages/Services/ServicesPage';
+
+// ========================================
+// PRODUCTOS E INVENTARIO
+// ========================================
+
 import ProductsPage
   from '@/pages/Products/ProductsPage';
 
-// Modulo de Control de Stock
 import InventoryPage
   from '@/pages/Inventory/InventoryPage';
+
+// ========================================
+// PROPIETARIOS Y MASCOTAS
+// ========================================
+
+import OwnersPage
+  from '@/pages/Owners/OwnersPage';
+
+import PetsPage
+  from '@/pages/Pets/PetsPage';
+
+// ========================================
+// RUTAS DINAMICAS
+// ========================================
 
 const moduleRoutes = navigation
   .flatMap((group) => group.items)
   .filter((item) => item.path !== PATHS.DASHBOARD);
 
+// ========================================
+// COMPONENTE PRINCIPAL
+// ========================================
+
 export default function AppRoutes() {
   return (
     <Routes>
 
-      {/* Ruta principal */}
+      {/* ==================================
+          RUTA PRINCIPAL
+      ================================== */}
 
       <Route
         path={PATHS.ROOT}
@@ -62,21 +106,30 @@ export default function AppRoutes() {
         }
       />
 
-      {/* Rutas publicas */}
+      {/* ==================================
+          RUTAS PUBLICAS
+      ================================== */}
 
       <Route element={<PublicRoute />}>
+
         <Route
           path={PATHS.LOGIN}
           element={<LoginPage />}
         />
+
       </Route>
 
-      {/* Rutas autenticadas */}
+      {/* ==================================
+          RUTAS AUTENTICADAS
+      ================================== */}
 
       <Route element={<ProtectedRoute />}>
+
         <Route element={<DashboardLayout />}>
 
-          {/* Dashboard */}
+          {/* ==============================
+              DASHBOARD
+          ============================== */}
 
           <Route
             element={
@@ -85,15 +138,20 @@ export default function AppRoutes() {
               />
             }
           >
+
             <Route
               path={PATHS.DASHBOARD}
               element={<DashboardPage />}
             />
+
           </Route>
 
-          {/* Modulos del sistema */}
+          {/* ==============================
+              MODULOS DEL SISTEMA
+          ============================== */}
 
           {moduleRoutes.map((item) => (
+
             <Route
               key={item.path}
               element={
@@ -102,28 +160,57 @@ export default function AppRoutes() {
                 />
               }
             >
+
               <Route
                 path={item.path}
                 element={
+
+                  // USUARIOS
                   item.path === PATHS.USERS
                     ? <UsersPage />
 
+                    // EMPLEADOS
                     : item.path === PATHS.EMPLOYEES
                       ? <EmployeesPage />
 
-                      : item.path === PATHS.PRODUCTS
-                        ? <ProductsPage />
+                      // HORARIOS
+                      : item.path === PATHS.SCHEDULES
+                        ? <SchedulesPage />
 
-                        : item.path === PATHS.INVENTORY
-                          ? <InventoryPage />
+                        // SERVICIOS
+                        : item.path === PATHS.SERVICES
+                          ? <ServicesPage />
 
-                          : <PlaceholderPage title={item.label} />
+                          // PRODUCTOS
+                          : item.path === PATHS.PRODUCTS
+                            ? <ProductsPage />
+
+                            // CONTROL DE STOCK
+                            : item.path === PATHS.INVENTORY
+                              ? <InventoryPage />
+
+                              // PROPIETARIOS
+                              : item.path === PATHS.OWNERS
+                                ? <OwnersPage />
+
+                                // MASCOTAS
+                                : item.path === PATHS.PETS
+                                  ? <PetsPage />
+
+                                  // MODULOS PENDIENTES
+                                  : <PlaceholderPage
+                                    title={item.label}
+                                  />
                 }
               />
+
             </Route>
+
           ))}
 
-          {/* Acceso denegado */}
+          {/* ==============================
+              ACCESO DENEGADO
+          ============================== */}
 
           <Route
             path={PATHS.FORBIDDEN}
@@ -131,9 +218,12 @@ export default function AppRoutes() {
           />
 
         </Route>
+
       </Route>
 
-      {/* Ruta desconocida */}
+      {/* ==================================
+          RUTA DESCONOCIDA
+      ================================== */}
 
       <Route
         path="*"
