@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 
+//usuarios
 import {
     Plus,
     ClipboardList,
@@ -7,6 +8,7 @@ import {
     Stethoscope,
     Pencil,
     Power,
+    Users,
 } from 'lucide-react';
 
 import Button from '@/components/common/Button';
@@ -21,6 +23,8 @@ import Modal from '@/components/common/Modal';
 import ConfirmDialog from '@/components/common/ConfirmDialog';
 
 import ServiceForm from './components/ServiceForm';
+import ServiceEmployees from './components/ServiceEmployees';
+
 
 import { serviceService } from '@/services/serviceService';
 import { getApiError } from '@/utils/apiError';
@@ -61,6 +65,12 @@ export default function ServicesPage() {
 
     const [confirmBusy, setConfirmBusy] = useState(false);
     const [confirmError, setConfirmError] = useState('');
+
+    const [assignmentService, setAssignmentService] =
+    useState<Service>();
+
+    const [assignmentBusy, setAssignmentBusy] =
+        useState(false);
 
     // ========================================
     // CARGAR SERVICIOS
@@ -168,6 +178,17 @@ export default function ServicesPage() {
         setStatusFilter('');
 
         void loadServices();
+    }
+    //
+    function handleManageEmployees(service: Service) {
+    setSuccess('');
+    setAssignmentService(service);
+}
+
+    function handleCloseEmployees() {
+        if (assignmentBusy) return;
+
+        setAssignmentService(undefined);
     }
 
     // ========================================
@@ -304,6 +325,15 @@ export default function ServicesPage() {
             align: 'center',
             render: service => (
                 <div className={styles.rowActions}>
+                    <button
+                        type="button"
+                        className={styles.employeesButton}
+                        title="Administrar trabajadores asignados"
+                        aria-label="Administrar trabajadores asignados"
+                        onClick={() => handleManageEmployees(service)}
+                    >
+                        <Users size={17} />
+                    </button>
 
                     <button
                         type="button"
@@ -566,6 +596,24 @@ export default function ServicesPage() {
                     }
                 }}
             />
+            {/* TRABAJADORES ASIGNADOS */}
+
+            <Modal
+                open={Boolean(assignmentService)}
+                title="Trabajadores asignados"
+                description="Administra los trabajadores que realizan este servicio."
+                onClose={handleCloseEmployees}
+                busy={assignmentBusy}
+            >
+                {assignmentService && (
+                    <ServiceEmployees
+                        key={assignmentService.id}
+                        service={assignmentService}
+                        onClose={handleCloseEmployees}
+                        onBusyChange={setAssignmentBusy}
+                    />
+                )}
+            </Modal>
 
         </div>
     );

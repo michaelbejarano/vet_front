@@ -159,4 +159,23 @@
     .panel {
         padding: var(--space-3);
     }
+
+
+    .employeesButton {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 36px;
+    height: 36px;
+    border: 1px solid var(--color-border);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    color: var(--color-info-strong);
+    cursor: pointer;
+    transition: background var(--transition-fast);
+}
+
+    .employeesButton:hover {
+        background: var(--color-info-soft);
+    }
 }
