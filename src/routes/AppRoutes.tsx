@@ -27,6 +27,7 @@ import DashboardPage
 import ForbiddenPage
   from '@/pages/Forbidden/ForbiddenPage';
 
+import EmployeesPage from '@/pages/Employees/EmployeesPage';
   //
 import UsersPage from '@/pages/Users/UsersPage';
 
@@ -91,14 +92,12 @@ export default function AppRoutes() {
               <Route
                 path={item.path}
                 element={
-                  item.path === PATHS.USERS ? (
-                    <UsersPage />
-                  ) : (
-                    <PlaceholderPage
-                      title={item.label}
-                    />
-                  )
-              }
+                  item.path === PATHS.USERS
+                      ? <UsersPage />
+                      : item.path === PATHS.EMPLOYEES
+                          ? <EmployeesPage />
+                          : <PlaceholderPage title={item.label} />
+                }
               />
             </Route>
           ))}
